@@ -31,7 +31,7 @@ app.post('/name',upload.single('file'), callName);
 function callName(req, res) {
 
 	var spawn = require("child_process").spawn;
-	
+	console.log(" app listening started")  
 
 	var process = spawn('python',["./main.py"] );
 
