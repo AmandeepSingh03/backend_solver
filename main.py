@@ -1,7 +1,11 @@
 import requests
 import sys
 from tensorflow.python.keras.models import model_from_json
-def preprocess(): 
+import numpy as np
+from sympy import solve,solveset,Eq,roots,symbols,sympify
+
+def preprocess():
+ 
     url="http://localhost:3200/"
     json_file = open('model.json', 'r')
 
@@ -166,39 +170,44 @@ def preprocess():
             t=9
             x.append(t)
             s=s+'9'
-    return(s)
-
-
-# r=requests.get(url+"3")  
-# from sympy import solve
-# from sympy.plotting import plot
-
-
-# # dic={0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:'+',11:'-',12:'=',13:'x'}
-# eqn=''
-# dic={0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:'-',11:'+',12:'=',13:'x',14:'y'}
-# #print equation f
-# def printEq(x):
-#     t=''
-#     flag=0
-#     for i in range(len(x)):
-#         if flag==1:
-#             flag=0
-#             continue
-#         if i!=len(x)-1 and dic[x[i]]=='x'and x[i+1]!=10 and x[i+1]!=11 and x[i+1]!=12:
-#             t=t+'x**'+str(dic[x[i+1]])
-# #             print('x**'+str(dic[x[i+1]]), end=" ")
-#             flag=1
-#         elif i!=len(x)-1 and (0<=x[i]<=9 and x[i+1]==13 or x[i+1]==14):
-#             t=t+str(dic[x[i]])+'*'
-#         else :
-#             t=t+str(dic[x[i]])
-# #             print(dic[x[i]], end=" ")
-#     return t
-# r=requests.get(url+"4")  
-# def solution(x):
-#     eqn=printEq(x)
-#     print(eqn)
-#     # print(solve(eqn))
-#     # plot(eqn)
-# solution(x)
+    eqn=''
+    dic={0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:'-',11:'+',12:'=',13:'x',14:'y'}
+    #print equation f
+    def printEq(x):
+        t=''
+        flag=0
+        for i in range(len(x)):
+            
+            if flag==1:
+                flag=0
+                continue
+    #         if(x[i]==12):
+    #             break
+            if i!=len(x)-1 and dic[x[i]]=='x'and x[i+1]!=10 and x[i+1]!=11 and x[i+1]!=12:
+                t=t+'x**'+str(dic[x[i+1]])
+    #             print('x**'+str(dic[x[i+1]]), end=" ")
+                flag=1
+            elif i!=len(x)-1 and (0<=x[i]<=9 and x[i+1]==13 or x[i+1]==14):
+                t=t+str(dic[x[i]])+'*'
+            else :
+                t=t+str(dic[x[i]])
+    #             print(dic[x[i]], end=" ")
+        return t
+    def solution(x):
+        eqn=printEq(x)
+        return eqn
+    e=solution(x)
+    x,y=symbols('x y') 
+    l=e.split('=')
+    # print(len(l))
+    if(len(l)==1):
+        num=0
+    else:
+        num=l[1]
+    eq1=sympify(l[0])
+    eq2=Eq(eq1,int(num))
+    print(eq2)
+    solve(eq2)
+    print(solve(eq2))
+    k = str(s) + " and the solution is: " +   " ".join(str(x) for x in solve(eq2))
+    return(k)

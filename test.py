@@ -21,6 +21,7 @@ def get_var(var):
 
 @app.route('/name', methods=['POST'])
 def call_name():
+    print("post called")
     if 'file' not in request.files:
         return jsonify(error='No file part'), 400
 
