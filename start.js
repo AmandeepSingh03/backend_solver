@@ -34,7 +34,7 @@ function callName(req, res) {
 	console.log(" app listening started")  
 
 	var process = spawn('python',["./main.py"] );
-
+  console.log(" preprocessing started") 
 	process.stdout.on('data', function(data) {
 		res.send(JSON.stringify(data.toString()));
 	} )
