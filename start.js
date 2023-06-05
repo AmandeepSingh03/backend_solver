@@ -23,6 +23,11 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
+
+app.get('/:var',(req,res)=>{
+  console.log(req.params.var)
+  res.status(200).json(req.params.var);
+})
 app.post('/name',upload.single('file'), callName);
 
 
